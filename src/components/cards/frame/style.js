@@ -1,7 +1,7 @@
 import Styled from "styled-components";
 import { Card } from "antd";
 
-const BtnWraper = theme => `
+const BtnWraper = (theme) => `
     .ant-card-head {
       display: flex;
       justify-content: space-evenly;
@@ -67,6 +67,7 @@ const CardFrame = Styled(Card)`
 
   .ant-card-head{
     border-color: #F1F2F6; 
+    background-color: inherit;
   }
 
   .ant-card-head-extra {
@@ -84,8 +85,8 @@ const CardFrame = Styled(Card)`
     color: #1D429C; /* BLUE */ 
   }
   .ant-card-body{
-    padding: ${({ bodypadding }) =>
-      bodypadding ? `${bodypadding}` : "20px"};
+    background-color: ;
+    padding: ${({ bodypadding }) => bodypadding && `${bodypadding}`};
     table{
       .ant-tag{
         line-height: 18px;

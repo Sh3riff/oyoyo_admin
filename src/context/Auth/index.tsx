@@ -1,7 +1,8 @@
-import React, { useState, createContext, FC } from "react";
+import React, { useState, createContext, FC, useEffect } from "react";
 
 interface ContextProps {
   auth: AuthProps;
+  setAuth: React.Dispatch<React.SetStateAction<AuthProps>>;
 }
 
 interface AuthProps {
@@ -23,8 +24,28 @@ const AuthProvider: FC = ({ children }) => {
     credentials: {},
   });
 
+  const checkAuth = () => {
+    if (localStorage.getItem("userData")) {
+      return true;
+    }
+    return false;
+  };
+
+  // useEffect(() => {
+  //   if (checkAuth()) {
+  //     const userData = localStorage.getItem("userData");
+  //     const userDetails = JSON.parse(userData!);
+  //     setAuth({
+  //       isAuthenticated: true,
+  //       credentials: userDetails,
+  //     });
+  //   }
+  // }, []);
+
   return (
-    <AuthContext.Provider value={{ auth }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ auth, setAuth }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

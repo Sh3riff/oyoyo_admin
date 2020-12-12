@@ -5,24 +5,27 @@ import { AuthWrapper, ColStyled } from "./styled";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import { useApiContext } from "../../../context/Api";
+import { useAuthState } from "../../../context/Auth";
 
 const Signin: FC<RouteComponentProps> = ({ history, location }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { auth } = useApiContext();
+  const { auth: user, setAuth } = useAuthState();
 
   const [form] = Form.useForm();
   const { state } = location;
 
-  // useEffect(() => {
-  //   if (auth.isAuthenticated) {
-  //     if (state && state.next) {
-  //       history.push(state.next);
-  //     } else {
-  //       history.push("/d");
-  //     }
-  //   }
-  // }, [auth, state, history]);
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      // if (state && state.next) {
+      //   history.push(state.next);
+      // } else {
+      //   history.push("/d");
+      // }
+      history.push("/d");
+    }
+  }, [user, state, history]);
 
   const handleSubmit = (values: any) => {
     setIsLoading(true);
@@ -31,7 +34,15 @@ const Signin: FC<RouteComponentProps> = ({ history, location }) => {
       .login(values)
       .then((res) => {
         setIsLoading(false);
+
+        // console.log(res.data);
+
+        setAuth({ isAuthenticated: true, credentials: res.data.data });
+
+        localStorage.setItem("userData", res.data.data);
+
         history.push("/d");
+
         // if (state && state.next) {
         //   history.push(state.next);
         // } else {

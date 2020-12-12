@@ -30,7 +30,6 @@ const AuthLayout: FunctionComponent = ({ children }) => {
         <Content
           style={{
             padding: "0 3.125rem",
-            background: "#fff",
             minHeight: "calc(100vh - (128px + 46px))",
             marginTop: "110px",
           }}

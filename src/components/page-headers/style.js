@@ -3,9 +3,9 @@ import { PageHeader } from "antd";
 
 const PageHeaderStyle = Styled(PageHeader)`
   margin-bottom: 15px;
+  background-color: inherit;
 
   &.ant-page-header {
-      background-color: none !important;
       padding: 1.2rem 0;
   }
 

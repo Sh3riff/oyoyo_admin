@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { CardFrame } from "./style";
 import Heading from "../../heading/heading";
 import { Dropdown } from "../../dropdown/dropdown";
-import { ReactComponent as BurgerMenu } from "../../../static/svg/burgermenu.svg";
+
 
 const Cards = props => {
   const {
@@ -31,19 +31,19 @@ const Cards = props => {
           headStyle={headStyle && headStyle}
           bordered={border}
           bodypadding={bodypadding && bodypadding}
-          extra={
-            <>
-              {more && (
-                <Dropdown content={more} placement="bottomCenter">
-                  <NavLink to="#">
-                    {!moreText ? <BurgerMenu /> : "More"}
-                  </NavLink>
-                </Dropdown>
-              )}
+          // extra={
+          //   <>
+          //     {more && (
+          //       <Dropdown content={more} placement="bottomCenter">
+          //         <NavLink to="#">
+          //           {!moreText ? <BurgerMenu /> : "More"}
+          //         </NavLink>
+          //       </Dropdown>
+          //     )}
 
-              {isbutton && isbutton}
-            </>
-          }
+          //     {isbutton && isbutton}
+          //   </>
+          // }
           style={{ width: "100%" }}
         >
           {children}

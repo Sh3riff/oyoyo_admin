@@ -4,7 +4,7 @@ import Styled from "styled-components";
 const { Header, Footer } = Layout;
 
 const Div = Styled.div`
-    background: #fff
+    /* background: #fff */
 `;
 
 const LayoutStyled = Styled(Layout)`
@@ -14,22 +14,7 @@ const LayoutStyled = Styled(Layout)`
     }
 
 
-    .topNav {
-      padding: 0 3.125rem;
-      background-color: ${({ theme }) => theme["primary-color"]};
-      color: hsla(0,0%,100%,.6);
-      margin-top: 4rem;
-
-      box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
-      position: fixed;
-      left: 0;
-      right: 0;
-      z-index: 100;
-
-      .ant-menu {
-        background-color: none;
-      }
-    }
+   
 `;
 
 const HeaderStyled = Styled(Header)`  
@@ -37,6 +22,7 @@ const HeaderStyled = Styled(Header)`
     width: 100%;
     top: 0;
     left: 0;
+    z-index: 100;
     background: #fff
 
     .ant-layout-header {

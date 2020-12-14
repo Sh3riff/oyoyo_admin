@@ -24,23 +24,24 @@ const AuthProvider: FC = ({ children }) => {
     credentials: {},
   });
 
-  const checkAuth = () => {
-    if (localStorage.getItem("userData")) {
-      return true;
-    }
-    return false;
-  };
+  const userData = localStorage.getItem("userData");
 
-  // useEffect(() => {
-  //   if (checkAuth()) {
-  //     const userData = localStorage.getItem("userData");
-  //     const userDetails = JSON.parse(userData!);
-  //     setAuth({
-  //       isAuthenticated: true,
-  //       credentials: userDetails,
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    const checkAuth = () => {
+      if (userData) {
+        return true;
+      }
+      return false;
+    };
+
+    if (checkAuth()) {
+      const userDetails = JSON.parse(userData!);
+      setAuth({
+        isAuthenticated: true,
+        credentials: userDetails,
+      });
+    }
+  }, [userData]);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
@@ -49,12 +50,12 @@ const AuthProvider: FC = ({ children }) => {
   );
 };
 
-function useAuthState() {
+function useAuthContext() {
   const context = React.useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useCountState must be used within a CountProvider");
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
   return context;
 }
 
-export { AuthProvider, useAuthState };
+export { AuthProvider, useAuthContext };

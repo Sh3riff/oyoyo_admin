@@ -5,13 +5,13 @@ import { AuthWrapper, ColStyled } from "./styled";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import { NavLink, RouteComponentProps } from "react-router-dom";
 import { useApiContext } from "../../../context/Api";
-import { useAuthState } from "../../../context/Auth";
+import { useAuthContext } from "../../../context/Auth";
 
 const Signin: FC<RouteComponentProps> = ({ history, location }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { auth } = useApiContext();
-  const { auth: user, setAuth } = useAuthState();
+  const { auth, setApiHeaders } = useApiContext();
+  const { auth: user, setAuth } = useAuthContext();
 
   const [form] = Form.useForm();
   const { state } = location;
@@ -30,16 +30,23 @@ const Signin: FC<RouteComponentProps> = ({ history, location }) => {
   const handleSubmit = (values: any) => {
     setIsLoading(true);
     // console.log(values);(
+
     auth
       .login(values)
       .then((res) => {
         setIsLoading(false);
 
-        // console.log(res.data);
+        console.log(res.data);
+
+        const {
+          data: { token },
+        } = res.data;
 
         setAuth({ isAuthenticated: true, credentials: res.data.data });
 
-        localStorage.setItem("userData", res.data.data);
+        setApiHeaders(token);
+
+        localStorage.setItem("userData", JSON.stringify(res.data.data));
 
         history.push("/d");
 

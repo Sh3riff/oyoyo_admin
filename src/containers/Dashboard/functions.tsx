@@ -1,12 +1,20 @@
 import React from "react";
 import { Button, Space } from "antd";
-import { ButtonStyled } from "./styled";
 import { Link } from "react-router-dom";
+import { ColumnsType } from "antd/lib/table";
+
+interface DataTypes {
+  id: number;
+  order_id: string;
+  market: string;
+  price: string;
+  status: string;
+}
 
 // Function that Generate Table Columns
 
 const createTableColumns = () => {
-  const columns = [
+  const columns: ColumnsType<DataTypes> = [
     {
       title: "S/N",
       dataIndex: "id",
@@ -45,6 +53,7 @@ const createTableColumns = () => {
           </Space>
         );
       },
+      align: "center",
     },
   ];
 

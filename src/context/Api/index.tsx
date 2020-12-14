@@ -1,15 +1,26 @@
 import React, { createContext, FC, useEffect, useState } from "react";
 import { useErrorDispatch } from "../Error";
-import axios, { AxiosResponse } from "axios";
-import Auth, { UserSigninProps } from "./auth";
+import axios, { AxiosInstance } from "axios";
+import Auth from "./auth";
+import Items from "./items";
+import Category from "./category";
+import Markets from "./markets";
+import Addons from "./addons";
 
 interface ApiProps {
-  auth: {
-    login: (userDetails: UserSigninProps) => Promise<AxiosResponse<any>>;
-  };
+  auth: Auth;
+  items: Items;
+  addons: Addons;
+  category: Category;
+  markets: Markets;
+  HttpClient: AxiosInstance;
 }
 
-const ApiContext = createContext<ApiProps | undefined>(undefined);
+interface ContextProps extends ApiProps {
+  setApiHeaders: (token: string) => void;
+}
+
+const ApiContext = createContext<ContextProps | undefined>(undefined);
 
 //Staging endpoint
 const axiosInstance = axios.create({
@@ -17,8 +28,12 @@ const axiosInstance = axios.create({
 });
 
 const ApiProvider: FC = ({ children }) => {
-  const [api] = useState({
+  const [api] = useState<ApiProps>({
     auth: new Auth(axiosInstance),
+    items: new Items(axiosInstance),
+    addons: new Addons(axiosInstance),
+    category: new Category(axiosInstance),
+    markets: new Markets(axiosInstance),
     HttpClient: axiosInstance,
   });
 
@@ -72,7 +87,22 @@ const ApiProvider: FC = ({ children }) => {
     );
   }, [dispatch]);
 
-  return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
+  const setApiHeaders = (token: string) => {
+    api.HttpClient.defaults.headers.common["authorization"] = `Bearer ${token}`;
+
+    api.HttpClient.defaults.headers.common["Content-Type"] = "application/json";
+  };
+
+  return (
+    <ApiContext.Provider
+      value={{
+        ...api,
+        setApiHeaders,
+      }}
+    >
+      {children}
+    </ApiContext.Provider>
+  );
 };
 
 function useApiContext() {

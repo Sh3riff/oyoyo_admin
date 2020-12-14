@@ -1,14 +1,22 @@
 import React from "react";
 import { Button, Space } from "antd";
+import { CategoryProps } from "../../context/Categories/types";
+import { ColumnsType } from "antd/lib/table";
+
+interface DataTypes {
+  image_url: string;
+  name: string;
+  num_of_item: number;
+  created_at: string;
+}
 
 // Function that Generate Table Columns
-
 const createTableColumns = () => {
-  const columns = [
+  const columns: ColumnsType<DataTypes> = [
     {
       title: "Category Image",
-      dataIndex: "img_url",
-      key: "img_url",
+      dataIndex: "image_url",
+      key: "image_url",
       render: (record: any) => {
         // console.log({ record, text });
 
@@ -33,8 +41,8 @@ const createTableColumns = () => {
     },
     {
       title: "No of Items",
-      dataIndex: "no_of_items",
-      key: "no_of_items",
+      dataIndex: "num_of_item",
+      key: "num_of_item",
     },
     {
       title: "Created At",
@@ -53,19 +61,20 @@ const createTableColumns = () => {
           </Space>
         );
       },
+      align: "center",
     },
   ];
 
   return columns;
 };
 
-const createDataSource = (categories: any[]) => {
+const createDataSource = (categories: CategoryProps[]) => {
   const dataSource = categories.map((category, key) => {
     return {
-      img_url: category.img_url,
+      image_url: category.image_url,
       name: category.name,
-      no_of_items: category.no_of_items,
-      created_at: category.created_at,
+      num_of_item: category.num_of_item,
+      created_at: new Date(category.created_at).toLocaleDateString(),
     };
   });
 

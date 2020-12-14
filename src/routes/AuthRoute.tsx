@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { Route, Redirect, RouteProps, useLocation } from "react-router-dom";
 import { AuthLayout } from "../containers";
-import { useAuthState } from "../context/Auth";
+import { useAuthContext } from "../context/Auth";
 
 const AuthRoute: FC<RouteProps> = ({ component, path, ...rest }: any) => {
-  const { auth } = useAuthState();
+  const { auth } = useAuthContext();
 
   const location = useLocation();
 

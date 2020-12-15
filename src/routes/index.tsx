@@ -1,8 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Dashboard } from "../containers";
+import { Dashboard, Categories, Items } from "../containers";
 import { Signin, Signup } from "../containers/Authentication";
-import Categories from "../containers/Categories";
 import AuthRoute from "./AuthRoute";
 
 const Routes = () => {
@@ -12,6 +11,8 @@ const Routes = () => {
       <Route path="/signup" component={Signup} />
       <AuthRoute exact path="/d" component={Dashboard} />
       <AuthRoute path="/d/categories" component={Categories} />
+      <AuthRoute path="/d/items" component={Items} />
+
       <Route
         path="/"
         component={() => (

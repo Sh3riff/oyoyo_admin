@@ -11,7 +11,7 @@ export default class Items {
     return this.client.get("/items/");
   }
 
-  createItem(data: any) {
+  addItem(data: any) {
     return this.client.post("/items/", data);
   }
 }

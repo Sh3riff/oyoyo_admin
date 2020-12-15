@@ -12,6 +12,16 @@ const Routes = () => {
       <Route path="/signup" component={Signup} />
       <AuthRoute exact path="/d" component={Dashboard} />
       <AuthRoute path="/d/categories" component={Categories} />
+      <Route
+        path="/"
+        component={() => (
+          <Redirect
+            to={{
+              pathname: "/signin",
+            }}
+          />
+        )}
+      />
     </Switch>
   );
 };

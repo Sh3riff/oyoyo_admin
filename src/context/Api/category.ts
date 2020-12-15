@@ -18,4 +18,8 @@ export default class Category {
       },
     });
   }
+
+  deleteCategory(categoryId?: number) {
+    return this.client.delete(`/category/${categoryId}`);
+  }
 }

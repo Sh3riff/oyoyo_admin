@@ -7,7 +7,7 @@ const CategoryContext = createContext<CategoryStateProps | undefined>(
 );
 
 const CategoryProvider: FC = ({ children }) => {
-  const [categories, setCategories] = useState<CategoryStateProps>({
+  const [categories, setCategories] = useState({
     isLoading: false,
     data: [],
   });
@@ -44,8 +44,34 @@ const CategoryProvider: FC = ({ children }) => {
     getAllCategories();
   }, [category]);
 
+  const refetchCategories = async () => {
+    setCategories((prevCategories) => ({
+      ...prevCategories,
+      isLoading: true,
+    }));
+
+    try {
+      const res = await category.getAllCategories();
+
+      const { data } = res.data;
+
+      setCategories((prevCategories) => ({
+        ...prevCategories,
+        isLoading: false,
+        data,
+      }));
+    } catch (error) {
+      setCategories((prevCategories) => ({
+        ...prevCategories,
+        isLoading: false,
+      }));
+
+      console.log(error);
+    }
+  };
+
   return (
-    <CategoryContext.Provider value={categories}>
+    <CategoryContext.Provider value={{ ...categories, refetchCategories }}>
       {children}
     </CategoryContext.Provider>
   );

@@ -11,15 +11,16 @@ interface DataTypes {
 }
 
 // Function that Generate Table Columns
-const createTableColumns = () => {
+const createTableColumns = (
+  toggleEditModal: (currRow: CategoryProps) => void,
+  toggleDeleteModal: (currRow: CategoryProps) => void
+): ColumnsType<DataTypes> => {
   const columns: ColumnsType<DataTypes> = [
     {
       title: "Category Image",
       dataIndex: "image_url",
       key: "image_url",
       render: (record: any) => {
-        // console.log({ record, text });
-
         return (
           <Space size="middle">
             <img
@@ -48,16 +49,17 @@ const createTableColumns = () => {
       title: "Created At",
       dataIndex: "created_at",
       key: "created_at",
+      render: (record) => <span>{new Date(record).toLocaleDateString()}</span>,
     },
 
     {
       title: "Action",
       key: "action",
-      render: () => {
+      render: (record, text) => {
         return (
           <Space size="middle">
-            <Button>Edit</Button>
-            <Button>Delete</Button>
+            <Button onClick={() => toggleEditModal(record)}>Edit</Button>
+            <Button onClick={() => toggleDeleteModal(record)}>Delete</Button>
           </Space>
         );
       },
@@ -71,10 +73,11 @@ const createTableColumns = () => {
 const createDataSource = (categories: CategoryProps[]) => {
   const dataSource = categories.map((category, key) => {
     return {
+      ...category,
       image_url: category.image_url,
       name: category.name,
       num_of_item: category.num_of_item,
-      created_at: new Date(category.created_at).toLocaleDateString(),
+      created_at: category.created_at,
     };
   });
 

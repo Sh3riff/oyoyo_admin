@@ -1,18 +1,23 @@
-import React, { FC, useState } from "react";
-import { Button, Modal, Form, Input, Upload } from "antd";
+import React, { useState, FC, useEffect } from "react";
+import { Button, Modal, Form, Input, Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import { useApiContext } from "../../../../context/Api";
+import { useCategoryContext } from "../../../../context/Categories";
+import { CategoryProps } from "../../../../context/Categories/types";
 
-interface AddCategoryProps {
-  isAddCategoryModalOpen: boolean;
-  toggleAddCategoryModal: () => void;
+interface EditCategoryProps {
+  isEditCategoryModalOpen: boolean;
+  toggleEditCategoryModal: () => void;
+  currCategory?: CategoryProps;
 }
 
 const FormItem = Form.Item;
 const Dragger = Upload.Dragger;
 
-const AddCategoryModal: FC<AddCategoryProps> = ({
-  isAddCategoryModalOpen,
-  toggleAddCategoryModal,
+const EditCategoryModal: FC<EditCategoryProps> = ({
+  isEditCategoryModalOpen,
+  toggleEditCategoryModal,
+  currCategory,
 }) => {
   const [file, setFile] = useState<{
     category_image: any[];
@@ -23,15 +28,9 @@ const AddCategoryModal: FC<AddCategoryProps> = ({
 
   const [form] = Form.useForm();
 
-  const handleSubmit = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log(values);
-      })
-      .catch((errors) => {
-        console.log(errors);
-      });
+  const handleSubmit = async () => {
+    try {
+    } catch (error) {}
   };
 
   const props = {
@@ -59,9 +58,9 @@ const AddCategoryModal: FC<AddCategoryProps> = ({
   return (
     <Modal
       title="Add New Item Category"
-      visible={isAddCategoryModalOpen}
+      visible={isEditCategoryModalOpen}
       destroyOnClose
-      onCancel={toggleAddCategoryModal}
+      onCancel={toggleEditCategoryModal}
       footer={[
         <Button
           htmlType="submit"
@@ -74,12 +73,36 @@ const AddCategoryModal: FC<AddCategoryProps> = ({
         </Button>,
       ]}
     >
-      <Form form={form} layout="vertical">
-        <FormItem name="category_name" label="Name">
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={{
+          category_name: currCategory?.name,
+        }}
+      >
+        <FormItem
+          name="category_name"
+          label="Name"
+          rules={[
+            {
+              message: "Please enter category name!",
+              required: true,
+            },
+          ]}
+        >
           <Input placeholder="Enter Category Name" />
         </FormItem>
 
-        <FormItem name="category_image" label="Category Image">
+        <FormItem
+          name="category_image"
+          label="Category Image"
+          rules={[
+            {
+              message: "Please upload cateegory image!",
+              required: true,
+            },
+          ]}
+        >
           <Dragger {...props} customRequest={() => {}}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
@@ -94,4 +117,4 @@ const AddCategoryModal: FC<AddCategoryProps> = ({
   );
 };
 
-export default AddCategoryModal;
+export default EditCategoryModal;

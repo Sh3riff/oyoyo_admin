@@ -11,6 +11,7 @@ interface CategoryProps {
 interface CategoryStateProps {
   isLoading: boolean;
   data: CategoryProps[];
+  refetchCategories: () => void;
 }
 
 export type { CategoryProps, CategoryStateProps };
